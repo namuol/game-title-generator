@@ -11,6 +11,7 @@ rm -rf wat
 git add *
 git commit -am 'auto-deploy'
 git push origin gh-pages
+rm -rf *
 
 git checkout master
-cake build
+grunt
