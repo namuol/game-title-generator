@@ -1,0 +1,14 @@
+{
+  "name": "seedrandom",
+  "homepage": "https://github.com/davidbau/seedrandom",
+  "version": "2.3.1",
+  "_release": "2.3.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.3.1",
+    "commit": "fc203ec2b054c31a43545e428f4037f2cac4dcb4"
+  },
+  "_source": "git://github.com/davidbau/seedrandom.git",
+  "_target": "~2.3.1",
+  "_originalSource": "seedrandom"
+}

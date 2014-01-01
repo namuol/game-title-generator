@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+html{font-family:'Open Sans',Helvetica,sans-serif;width:100%;height:100%;margin:0;padding:0;text-align:center;background-image:-webkit-linear-gradient(#5596c9, #5596c9 25%, #5596c9);background-image:-moz-linear-gradient(#5596c9, #5596c9 25%, #5596c9);background-image:-o-linear-gradient(#5596c9, #5596c9 25%, #5596c9);background-image:-ms-linear-gradient(#5596c9, #5596c9 25%, #5596c9);background-image:linear-gradient(#5596c9, #5596c9 25%, #5596c9);background-repeat:no-repeat;color:#fff}
+button{font-family:'Open Sans',sans-serif;border:0;background-color:rgba(0,0,0,0.5);padding:5pt;color:#fff;font-weight:700;outline:0;border:0}
+button.highlight{background-color:rgba(0,0,0,0.2)}
+button:hover{cursor:pointer;background-color:rgba(0,0,0,0.3)}
+button:active{background-color:rgba(0,0,0,0.4)}
+body{margin:0;padding:0}
+a[href]{color:#fff;font-weight:700;text-decoration:none;}
+a[href]:hover{text-decoration:underline}
+button.custom{margin:0;font-weight:200;position:absolute;top:0;left:0;width:200px;height:30px}
+.options{padding:10pt;display:none;text-align:left;position:fixed;top:30px;left:0;bottom:0;width:200px;background:#fff;overflow:hidden;overflow-y:auto;background-color:rgba(0,0,0,0.5);}
+.options ul.list{margin-left:-10pt;margin-right:-10pt;padding-left:0;list-style:none;line-height:1.4em;}
+.options ul.list li input{margin-top:5px;float:left;opacity:.4;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";filter:alpha(opacity=40)}
+.options ul.list li input:checked{opacity:1;-ms-filter:none;filter:none}
+.options ul.list li label{width:100%;display:block}
+.options ul.list li label:hover{cursor:pointer;background-color:rgba(255,255,255,0.1)}
+body.sidebar-visible{margin-left:200px;}
+body.sidebar-visible .options{display:block}
+h1,h2,h3,h4,h5,h6{font-family:'Open Sans',Helvetica,sans-serif;font-weight:400}
+.loading{position:relative;width:200px;height:100px;text-align:center;margin:auto}
+.main{display:none;margin:0 10pt}
+.error{display:none;color:#a41d1d;background:#f9c8c8;padding:5pt;border:1px solid #da7474}
+footer{font-weight:300;margin-top:40pt;}
+footer p{opacity:.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90);text-align:center}
+h1{font-size:14pt}
+.generated-title{font-size:32pt;font-weight:700;margin-top:40pt;margin-bottom:5pt}
