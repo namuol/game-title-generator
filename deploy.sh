@@ -2,15 +2,15 @@
 
 grunt
 mkdir -p wat
-cp -r dist/* wat/.
+mv dist/* wat/.
 
 git checkout gh-pages
-cp -r wat/* .
+mv wat/* .
 rm -rf wat
 
-git add *
+git add *.html *.json *.css support
 git commit -am 'auto-deploy'
 git push origin gh-pages
 
 git checkout master
-cake build
+grunt
