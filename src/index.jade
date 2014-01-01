@@ -1,0 +1,127 @@
+extends layout
+block headerscripts
+  script(src='support/titlegen/titlegen.js')
+  script(src='support/async/lib/async.js')
+  script(src='//platform.twitter.com/widgets.js')
+
+block content
+  .loading please wait...
+
+  .main
+    button.show-options.custom Customize
+    button.generate(data-platforms='all', data-tweet-name='game') All
+    button.generate(data-platforms='nes', data-tweet-name='NES') NES
+    button.generate(data-platforms='snes', data-tweet-name='SNES') SNES
+    button.generate(data-platforms='gb,gbc', data-tweet-name='GameBoy') GB/GBC
+    button.generate(data-platforms='gba', data-tweet-name='GBA') GBA
+    button.generate(data-platforms='n64', data-tweet-name='N64') N64
+    button.generate(data-platforms='psx', data-tweet-name='PSX') PSX
+    button.generate(data-platforms='ps2', data-tweet-name='PS2') PS2
+    button.generate(data-platforms='ps3', data-tweet-name='PS3') PS3
+    button.generate(data-platforms='genesis', data-tweet-name='Genesis') Genesis
+    button.generate(data-platforms='saturn', data-tweet-name='Saturn') Saturn
+    button.generate(data-platforms='dc', data-tweet-name='Dreamcast') Dreamcast
+    button.generate(data-platforms='xbox', data-tweet-name='Xbox') Xbox
+    button.generate(data-platforms='360', data-tweet-name='360') 360
+
+    h2.generated-title
+
+    p#tweet
+
+block sidebar
+  aside.options
+    .platforms
+      button.generate(data-tweet-name='game') GENERATE!
+      br
+      button.select-all ALL
+      button.deselect-all NONE
+      ul.list
+
+block scripts
+  :coffeescript
+    $ ->
+      $.ajax('platforms.json').then (platformData) ->
+        platforms = []
+        platformNames = []
+        for own longName,shortName of platformData
+          platforms.push shortName
+          platformNames.push longName
+        
+        platforms.sort()
+        platformNames.sort()
+
+        platformTitles = {}
+        allTitles = []
+        tweetPlatformName = 'game'
+
+        async.forEach platforms, (platform, cb) ->
+          $.ajax("support/titlegen/titles/games/#{platform}.txt").then (_titles) ->
+            platformTitles[platform] = _titles.split '\n'
+            cb()
+          , ->
+            $('.error').show().append 'Could not load "'+platform+'.txt"'
+            cb(true)
+        , (err) ->
+          $('.loading').hide()
+          $('.main').show()
+
+          for longName in platformNames
+            platform = platformData[longName]
+            $('.platforms .list').append "<li><input type='checkbox' id='pf_#{platform}' checked='checked' value='#{platform}'></input><label for='pf_#{platform}'>#{longName}</label></li>"
+          
+          updateTitles = ->
+            allTitles.length = 0
+            for checkbox in $('.platforms .list input[type=checkbox]')
+              continue  unless $(checkbox).prop('checked')
+              Array::push.apply allTitles, platformTitles[$(checkbox).val()]
+
+            titlegen.feed allTitles
+            return
+
+          generate = ->
+            title = titlegen()
+            $('.generated-title').text title
+            $('#tweet iframe').remove();
+            tweetText = "Randomly-generated #{tweetPlatformName} title: \"#{title}\""
+            button = $('<a></a>')
+              .addClass('twitter-share-button')
+              .attr('href', 'http://twitter.com/share')
+              .attr('data-size', 'large')
+              .attr('data-count', 'none')
+              .attr('data-text', tweetText);
+            $('#tweet').append(button);
+            twttr.widgets.load();
+          
+          updateTitles()
+          generate()
+
+          $('.platforms .list input').on 'change', ->
+            setTimeout -> updateTitles()
+
+          $('.platforms .select-all').on 'click', ->
+            $('.platforms .list input[type=checkbox]').prop('checked','checked')
+            updateTitles()
+
+          $('.platforms .deselect-all').on 'click', ->
+            $('.platforms .list input[type=checkbox]').prop('checked',false)
+            updateTitles()
+
+          $('button.generate').on 'click', ->
+            $('button.generate').removeClass 'highlight'
+            $(this).addClass 'highlight'
+            platformStr = $(this).data 'platforms'
+            tweetPlatformName = $(this).data 'tweet-name'
+            
+            if platformStr is 'all'
+              if $('.platforms .list :checked').length isnt platforms.length
+                $('.select-all').click()
+            else if platformStr?
+              $('.deselect-all').click()
+              for platform in platformStr.toString().split ','
+                if not (pf = $('#pf_'+platform)).prop 'checked'
+                  $('#pf_'+platform).click()
+              updateTitles()
+            generate()
+
+          $('.show-options').on 'click', ->
+            $('body').toggleClass('sidebar-visible')

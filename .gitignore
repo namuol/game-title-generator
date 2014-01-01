@@ -1,0 +1,5 @@
+*.sublime-workspace
+src/*.jst
+node_modules
+dist
+dist
