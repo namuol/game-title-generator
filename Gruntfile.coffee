@@ -11,9 +11,9 @@ module.exports = (grunt) ->
 
   snippets = {}
   grunt.file.setBase 'src/snippets'
-  for file in grunt.file.expand 'src/snippets/*'
+  for file in grunt.file.expand '*'
     snippets[file] = grunt.file.read file, encoding:'utf-8'
-
+  console.log snippets
   grunt.file.setBase '../..'
 
   config =
@@ -41,10 +41,10 @@ module.exports = (grunt) ->
         ]
 
     jade:
+      options:
+        data:
+          snippets: snippets
       build:
-        options:
-          data:
-            snippets: snippets
         expand: true
         cwd: 'src'
         src: '**/*.jade'
